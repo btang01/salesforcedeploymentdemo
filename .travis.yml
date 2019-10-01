@@ -12,6 +12,14 @@ stages:
     if: type = pull_request and branch == "uat"
   - name: PRODUCTION Validation
     if: type = pull_request and branch == "production"
+  - name: DEV Deployment
+    if: type = push AND branch == "dev"
+  - name: MERGE Deployment
+    if: type = push AND branch == "merge"
+  - name: QA Deployment
+    if: type = push AND branch == "qa"
+  - name: UAT Deployment
+    if: type = push AND branch == "uat"
 
 jobs:
   include:
@@ -49,7 +57,47 @@ jobs:
     # opening PR against uat triggered this
       script: 
         - echo "UAT Validation"
-        - ant -buildfile build.xml validateNoTest 
+        - ant -buildfile build.xml validateWithTest 
+          -Dsfdc.deployFile=package.xml
+          -Dsfdc.username=$SFDC_DEV_USERNAME
+          -Dsfdc.password=$SFDC_DEV_PASSWORD
+          -Dsfdc.serverUrl=$SFDC_TEST_URL
+
+    - stage: DEV Deployment
+    # opening PR against uat triggered this
+      script: 
+        - echo "Deploying to DEV"
+        - ant -buildfile build.xml deployCode 
+          -Dsfdc.deployFile=package.xml
+          -Dsfdc.username=$SFDC_DEV_USERNAME
+          -Dsfdc.password=$SFDC_DEV_PASSWORD
+          -Dsfdc.serverUrl=$SFDC_TEST_URL
+
+    - stage: MERGE Deployment
+    # opening PR against uat triggered this
+      script: 
+        - echo "Deploying to MERGE"
+        - ant -buildfile build.xml deployCode 
+          -Dsfdc.deployFile=package.xml
+          -Dsfdc.username=$SFDC_DEV_USERNAME
+          -Dsfdc.password=$SFDC_DEV_PASSWORD
+          -Dsfdc.serverUrl=$SFDC_TEST_URL
+
+    - stage: QA Deployment
+    # opening PR against uat triggered this
+      script: 
+        - echo "Deploying to QA"
+        - ant -buildfile build.xml deployCode 
+          -Dsfdc.deployFile=package.xml
+          -Dsfdc.username=$SFDC_DEV_USERNAME
+          -Dsfdc.password=$SFDC_DEV_PASSWORD
+          -Dsfdc.serverUrl=$SFDC_TEST_URL
+
+    - stage: UAT Deployment
+    # opening PR against uat triggered this
+      script: 
+        - echo "Deploying to UAT"
+        - ant -buildfile build.xml deployCode 
           -Dsfdc.deployFile=package.xml
           -Dsfdc.username=$SFDC_DEV_USERNAME
           -Dsfdc.password=$SFDC_DEV_PASSWORD
