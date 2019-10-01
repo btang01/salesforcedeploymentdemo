@@ -1,7 +1,7 @@
 language: java
 
-stages:
-	- name: validateDev
+jobs:
+	include:
 		if: (type = pull_request AND TRAVIS_BRANCH == "dev")
 			script: 
 			  - echo "validating against DEV"
@@ -9,9 +9,8 @@ stages:
 			    -Dsfdc.deployFile=package.xml
 			    -Dsfdc.username=$SFDC_DEV_USERNAME
 			    -Dsfdc.password=$SFDC_DEV_PASSWORD
-			    -Dsfdc.serverUrl=$SFDC_TEST_URL
+			    -Dsfdc.serverUrl=$SFDC_TEST_URL			
 
-	- name: validateMerge
 		if: (type = pull_request AND TRAVIS_BRANCH == "merge")
 			script: 
 			  - echo "validating against MERGE"
