@@ -1,0 +1,12 @@
+language: java
+install: ant deps
+
+  if: branch = dev
+      type = pull_request
+      script:
+      - echo "validating against DEV"
+      - ant -buildfile build/build.xml validateWithTest 
+        -Dsfdc.deployFile=package.xml
+        -Dsfdc.username=$SFDC_DEV_USERNAME
+        -Dsfdc.password=$SFDC_DEV_PASSWORD
+        -Dsfdc.serverUrl=$SFDC_TEST_URL
