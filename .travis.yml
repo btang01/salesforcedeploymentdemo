@@ -1,11 +1,11 @@
 language: java
 
 stages:
-	- name: DEV Validation
-	if: type = pull_request AND branch = "dev"
+- name: DEV Validation
+	if: type = pull_request AND branch == "dev"
 
 	- name: MERGE Validation
-	if: type = pull_request and branch = "merge"
+	if: type = pull_request and branch == "merge"
 
 jobs:
 	include:
