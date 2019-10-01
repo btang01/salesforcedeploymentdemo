@@ -12,7 +12,6 @@ jobs:
   include:
     - stage: DEV Validation
       script:
-        echo "validating against DEV"
         ant -buildfile build.xml validateNoTest 
           -Dsfdc.deployFile=package.xml
           -Dsfdc.username=$SFDC_DEV_USERNAME
