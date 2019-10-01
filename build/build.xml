@@ -6,7 +6,7 @@
 
   <taskdef uri="antlib:com.salesforce"
     resource="com/salesforce/antlib.xml"
-    classpath="${basedir}/build/lib/ant-salesforce.jar"/>
+    classpath="/build/lib/ant-salesforce.jar"/>
 
   <property file="${basedir}/build/build.properties"/>
   <property environment="env"/>
@@ -18,7 +18,7 @@
       password        ="${sfdc.password}" 
       serverurl       ="${sfdc.serverUrl}"
       unpackaged      ="src/package.xml" />
-    <move file="${basedir}/${sfdc.retrieveTarget}" tofile="src"/>    
+    <move file="/src" tofile="src"/>    
   </target>
 
   <target name="validateNoTest">
@@ -28,7 +28,7 @@
       username        ="${sfdc.username}" 
       password        ="${sfdc.password}" 
       serverurl       ="${sfdc.serverUrl}"
-      deployRoot      ="${basedir}/src" 
+      deployRoot      ="/src" 
       testLevel="NoTestRun"/>
   </target>
 
@@ -39,7 +39,7 @@
       username        ="${sfdc.username}" 
       password        ="${sfdc.password}" 
       serverurl       ="${sfdc.serverUrl}"
-      deployRoot      ="${basedir}/src" 
+      deployRoot      ="/src" 
       testLevel="RunLocalTests"/>
   </target>
 
@@ -48,6 +48,6 @@
       username        ="${sfdc.username}" 
       password        ="${sfdc.password}" 
       serverurl       ="${sfdc.serverUrl}"
-      deployRoot      ="${basedir}/src" />
+      deployRoot      ="/src" />
   </target>
 </project>
