@@ -12,7 +12,8 @@ jobs:
   include:
     - stage: DEV Validation
       script:
-        ant -buildfile build.xml validateNoTest 
+        - echo "DEV Validation"
+        - ant -buildfile build.xml validateNoTest 
           -Dsfdc.deployFile=package.xml
           -Dsfdc.username=$SFDC_DEV_USERNAME
           -Dsfdc.password=$SFDC_DEV_PASSWORD
@@ -20,6 +21,7 @@ jobs:
 
     - stage: MERGE Validation
       script: 
+      	- echo "MERGE Validation"
         - ant -buildfile build.xml validateNoTest 
           -Dsfdc.deployFile=package.xml
           -Dsfdc.username=$SFDC_DEV_USERNAME
