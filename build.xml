@@ -1,28 +1,17 @@
 <project 
   name="Salesforce ANT Deployment" 
   default="validateNoTest" 
-  basedir=".." 
+  basedir="." 
   xmlns:sf="antlib:com.salesforce">
 
   <taskdef uri="antlib:com.salesforce"
     resource="com/salesforce/antlib.xml"
-    classpath="/build/lib/ant-salesforce.jar"/>
+    classpath="lib/ant-salesforce.jar"/>
 
-  <property file="${basedir}/build/build.properties"/>
   <property environment="env"/>
 
-  <target name="getCode">
-    <sf:retrieve 
-      retrieveTarget  ="{basedir}/${sfdc.retrieveTarget}" 
-      username        ="${sfdc.username}" 
-      password        ="${sfdc.password}" 
-      serverurl       ="${sfdc.serverUrl}"
-      unpackaged      ="src/package.xml" />
-    <move file="/src" tofile="src"/>    
-  </target>
-
   <target name="validateNoTest">
-    <echo level="info">Test Deployment</echo>
+    <echo level="info">build.xml: validateNoTest</echo>
     <sf:deploy
       checkOnly       ="true" 
       username        ="${sfdc.username}" 
@@ -33,7 +22,7 @@
   </target>
 
   <target name="validateWithTest">
-    <echo level="info">Test Deployment</echo>
+    <echo level="info">build.xml: validateWithTest</echo>
     <sf:deploy
       checkOnly       ="true" 
       username        ="${sfdc.username}" 
