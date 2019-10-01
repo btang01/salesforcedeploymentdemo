@@ -1,4 +1,3 @@
-install: "ant deps"
 language: java
 
 script: 
