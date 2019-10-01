@@ -1,0 +1,53 @@
+<project 
+  name="Salesforce ANT Deployment" 
+  default="validateNoTest" 
+  basedir=".." 
+  xmlns:sf="antlib:com.salesforce">
+
+  <taskdef uri="antlib:com.salesforce"
+    resource="com/salesforce/antlib.xml"
+    classpath="${basedir}/build/lib/ant-salesforce.jar"/>
+
+  <property file="${basedir}/build/build.properties"/>
+  <property environment="env"/>
+
+  <target name="getCode">
+    <sf:retrieve 
+      retrieveTarget  ="{basedir}/${sfdc.retrieveTarget}" 
+      username        ="${sfdc.username}" 
+      password        ="${sfdc.password}" 
+      serverurl       ="${sfdc.serverUrl}"
+      unpackaged      ="src/package.xml" />
+    <move file="${basedir}/${sfdc.retrieveTarget}" tofile="src"/>    
+  </target>
+
+  <target name="validateNoTest">
+    <echo level="info">Test Deployment</echo>
+    <sf:deploy
+      checkOnly       ="true" 
+      username        ="${sfdc.username}" 
+      password        ="${sfdc.password}" 
+      serverurl       ="${sfdc.serverUrl}"
+      deployRoot      ="${basedir}/src" 
+      testLevel="NoTestRun"/>
+  </target>
+
+  <target name="validateWithTest">
+    <echo level="info">Test Deployment</echo>
+    <sf:deploy
+      checkOnly       ="true" 
+      username        ="${sfdc.username}" 
+      password        ="${sfdc.password}" 
+      serverurl       ="${sfdc.serverUrl}"
+      deployRoot      ="${basedir}/src" 
+      testLevel="RunLocalTests"/>
+  </target>
+
+  <target name="deployCode">
+    <sf:deploy 
+      username        ="${sfdc.username}" 
+      password        ="${sfdc.password}" 
+      serverurl       ="${sfdc.serverUrl}"
+      deployRoot      ="${basedir}/src" />
+  </target>
+</project>

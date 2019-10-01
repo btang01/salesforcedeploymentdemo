@@ -1,0 +1,120 @@
+pipelines:
+  #default:
+    #- step:
+        #script:
+        #- echo "running default validation script against DEV"
+        #- ant -buildfile build/build.xml validateNoTest 
+          #-Dsfdc.deployFile=package.xml 
+          #-Dsfdc.username=$SFDC_DEV_USERNAME
+          #-Dsfdc.password=$SFDC_DEV_PASSWORD 
+          #-Dsfdc.serverUrl=$SFDC_TEST_URL
+
+  pull-requests: # Pipelines auto-triggered from PRs
+    feature/*:   # any branch with a feature prefix
+        - step:
+            script:
+            - echo "validating against DEV without tests 123"
+            - ant -buildfile build/build.xml validateNoTest 
+              -Dsfdc.deployFile=package.xml
+              -Dsfdc.username=$SFDC_DEV_USERNAME
+              -Dsfdc.password=$SFDC_DEV_PASSWORD
+              -Dsfdc.serverUrl=$SFDC_TEST_URL
+              
+    dev: # any PRs from dev to downstream branch
+      - step:
+          script:
+          - echo "validating against DEV without tests 345"
+          - ant -buildfile build/build.xml validateNoTest 
+            -Dsfdc.deployFile=package.xml
+            -Dsfdc.username=$SFDC_DEV_USERNAME
+            -Dsfdc.password=$SFDC_DEV_PASSWORD
+            -Dsfdc.serverUrl=$SFDC_TEST_URL
+            
+    merge: # any PRs from merge to downstream branch
+      - step:
+          deployment: MERGE
+          script:
+          - echo "validating against MERGE with tests"
+          - ant -buildfile build/build.xml validateWithTest 
+            -Dsfdc.deployFile=package.xml
+            -Dsfdc.username=$SFDC_MERGE_USERNAME
+            -Dsfdc.password=$SFDC_MERGE_PASSWORD
+            -Dsfdc.serverUrl=$SFDC_TEST_URL
+            
+    qa:  # any PRs from qa to downstream branch
+      - step:
+          deployment: QA
+          script:
+          - echo "validating against QA with tests"
+          - ant -buildfile build/build.xml validateWithTest 
+            -Dsfdc.deployFile=package.xml
+            -Dsfdc.username=$SFDC_QA_USERNAME
+            -Dsfdc.password=$SFDC_QA_PASSWORD
+            -Dsfdc.serverUrl=$SFDC_TEST_URL
+            
+    uat:  # any PRs from uat to downstream branch
+      - step:
+          deployment: UAT
+          script:
+          - echo "validating against UAT with tests"
+          - ant -buildfile build/build.xml validateWithTest 
+            -Dsfdc.deployFile=package.xml
+            -Dsfdc.username=$SFDC_UAT_USERNAME
+            -Dsfdc.password=$SFDC_UAT_PASSWORD
+            -Dsfdc.serverUrl=$SFDC_TEST_URL
+            
+    production:
+      - step:
+          deployment: Production
+          script:
+          - echo "validating against PRODUCTION with tests"
+          - ant -buildfile build/build.xml validateWithTest 
+            -Dsfdc.deployFile=package.xml
+            -Dsfdc.username=$SFDC_PRODUCTION_USERNAME
+            -Dsfdc.password=$SFDC_PRODUCTION_PASSWORD
+            -Dsfdc.serverUrl=$SFDC_PRODUCTION_URL
+            
+  branches:
+    merge:
+      - step:
+          deployment: MERGE
+          script:
+          - echo "deploying to MERGE"
+          - ant -buildfile build/build.xml deployCode 
+            -Dsfdc.deployFile=package.xml
+            -Dsfdc.username=$SFDC_MERGE_USERNAME
+            -Dsfdc.password=$SFDC_MERGE_PASSWORD
+            -Dsfdc.serverUrl=$SFDC_TEST_URL
+            
+    qa:
+      - step:
+          deployment: QA
+          script:
+          - echo "deploying to QA"
+          - ant -buildfile build/build.xml validateWithTest 
+            -Dsfdc.deployFile=package.xml
+            -Dsfdc.username=$SFDC_QA_USERNAME
+            -Dsfdc.password=$SFDC_QA_PASSWORD
+            -Dsfdc.serverUrl=$SFDC_TEST_URL
+            
+    uat:
+      - step:
+          deployment: UAT
+          script:
+          - echo "deploying to UAT"
+          - ant -buildfile build/build.xml validateWithTest 
+            -Dsfdc.deployFile=package.xml
+            -Dsfdc.username=$SFDC_UAT_USERNAME
+            -Dsfdc.password=$SFDC_UAT_PASSWORD
+            -Dsfdc.serverUrl=$SFDC_TEST_URL
+            
+    production:
+      - step:
+          deployment: Production
+          script:
+          - echo "validating against PRODUCTION with tests"
+          - ant -buildfile build/build.xml validateWithTest 
+            -Dsfdc.deployFile=package.xml
+            -Dsfdc.username=$SFDC_PRODUCTION_USERNAME
+            -Dsfdc.password=$SFDC_PRODUCTION_PASSWORD
+            -Dsfdc.serverUrl=$SFDC_PRODUCTION_URL
