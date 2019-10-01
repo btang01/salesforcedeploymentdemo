@@ -1,6 +1,6 @@
 language: java
 
-if: (type = pull_request)
+if: (type = pull_request AND branch IN (dev))
 script: 
   - echo "validating against DEV"
   - ant -buildfile build.xml validateNoTest 
