@@ -5,8 +5,8 @@ stages:
   - name: DEV Validation
     if: type = pull_request AND branch == "dev"
   
-  #- name: MERGE Validation
-    #if: type = pull_request and branch == "merge"
+  - name: MERGE Validation
+    if: type = pull_request and branch == "merge"
 
 jobs:
   include:
