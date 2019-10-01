@@ -1,10 +1,11 @@
 language: java
 
 script: 
-  - 'if [$TRAVIS_PULL_REQUEST == "true"] && [$TRAVIS_BRANCH == "dev"]; then
+  - if [$TRAVIS_PULL_REQUEST == "true"] && [$TRAVIS_BRANCH == "dev"]; 
+        then
         echo "validating against DEV"
         ant -buildfile build/build.xml validateNoTest 
           -Dsfdc.deployFile=package.xml 
           -Dsfdc.username=$SFDC_DEV_USERNAME 
           -Dsfdc.password=$SFDC_DEV_PASSWORD 
-          -Dsfdc.serverUrl=$SFDC_TEST_URL'
+          -Dsfdc.serverUrl=$SFDC_TEST_URL
