@@ -21,7 +21,7 @@ jobs:
 
     - stage: MERGE Validation
       script: 
-      	- echo "MERGE Validation"
+        - echo "MERGE Validation"
         - ant -buildfile build.xml validateNoTest 
           -Dsfdc.deployFile=package.xml
           -Dsfdc.username=$SFDC_DEV_USERNAME
