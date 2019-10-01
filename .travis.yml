@@ -1,20 +1,22 @@
 language: java
 
 stages:
-	if: (type = pull_request AND TRAVIS_BRANCH == "dev")
-		script: 
-		  - echo "validating against DEV"
-		  - ant -buildfile build.xml validateNoTest 
-		    -Dsfdc.deployFile=package.xml
-		    -Dsfdc.username=$SFDC_DEV_USERNAME
-		    -Dsfdc.password=$SFDC_DEV_PASSWORD
-		    -Dsfdc.serverUrl=$SFDC_TEST_URL
+	- name: validateDev
+		if: (type = pull_request AND TRAVIS_BRANCH == "dev")
+			script: 
+			  - echo "validating against DEV"
+			  - ant -buildfile build.xml validateNoTest 
+			    -Dsfdc.deployFile=package.xml
+			    -Dsfdc.username=$SFDC_DEV_USERNAME
+			    -Dsfdc.password=$SFDC_DEV_PASSWORD
+			    -Dsfdc.serverUrl=$SFDC_TEST_URL
 
-	if: (type = pull_request AND TRAVIS_BRANCH == "merge")
-		script: 
-		  - echo "validating against MERGE"
-		  - ant -buildfile build.xml validateNoTest 
-		    -Dsfdc.deployFile=package.xml
-		    -Dsfdc.username=$SFDC_DEV_USERNAME
-		    -Dsfdc.password=$SFDC_DEV_PASSWORD
-		    -Dsfdc.serverUrl=$SFDC_TEST_URL
+	- name: validateMerge
+		if: (type = pull_request AND TRAVIS_BRANCH == "merge")
+			script: 
+			  - echo "validating against MERGE"
+			  - ant -buildfile build.xml validateNoTest 
+			    -Dsfdc.deployFile=package.xml
+			    -Dsfdc.username=$SFDC_DEV_USERNAME
+			    -Dsfdc.password=$SFDC_DEV_PASSWORD
+			    -Dsfdc.serverUrl=$SFDC_TEST_URL
