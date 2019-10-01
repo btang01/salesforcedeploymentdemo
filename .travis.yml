@@ -2,7 +2,7 @@ language: java
 
 script: 
   - echo "validating against DEV"
-  - ant -buildfile build/build.xml validateNoTest 
+  - ant -buildfile build.xml validateNoTest 
     -Dsfdc.deployFile=package.xml
     -Dsfdc.username=$SFDC_DEV_USERNAME
     -Dsfdc.password=$SFDC_DEV_PASSWORD
