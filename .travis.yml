@@ -2,45 +2,12 @@ language: java
 install: ant deps
             
   branches:
-    merge:
-      - step:
+    dev:
+      - stages:
           script:
-          - echo "validating against MERGE"
+          - echo "validating against DEV"
           - ant -buildfile build/build.xml validateWithTest 
             -Dsfdc.deployFile=package.xml
-            -Dsfdc.username=$SFDC_MERGE_USERNAME
-            -Dsfdc.password=$SFDC_MERGE_PASSWORD
+            -Dsfdc.username=$SFDC_DEV_USERNAME
+            -Dsfdc.password=$SFDC_DEV_PASSWORD
             -Dsfdc.serverUrl=$SFDC_TEST_URL
-            
-    qa:
-      - step:
-          deployment: QA
-          script:
-          - echo "deploying to QA"
-          - ant -buildfile build/build.xml validateWithTest 
-            -Dsfdc.deployFile=package.xml
-            -Dsfdc.username=$SFDC_QA_USERNAME
-            -Dsfdc.password=$SFDC_QA_PASSWORD
-            -Dsfdc.serverUrl=$SFDC_TEST_URL
-            
-    uat:
-      - step:
-          deployment: UAT
-          script:
-          - echo "deploying to UAT"
-          - ant -buildfile build/build.xml validateWithTest 
-            -Dsfdc.deployFile=package.xml
-            -Dsfdc.username=$SFDC_UAT_USERNAME
-            -Dsfdc.password=$SFDC_UAT_PASSWORD
-            -Dsfdc.serverUrl=$SFDC_TEST_URL
-            
-    production:
-      - step:
-          deployment: Production
-          script:
-          - echo "validating against PRODUCTION with tests"
-          - ant -buildfile build/build.xml validateWithTest 
-            -Dsfdc.deployFile=package.xml
-            -Dsfdc.username=$SFDC_PRODUCTION_USERNAME
-            -Dsfdc.password=$SFDC_PRODUCTION_PASSWORD
-            -Dsfdc.serverUrl=$SFDC_PRODUCTION_URL
