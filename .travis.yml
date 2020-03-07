@@ -34,7 +34,7 @@ jobs:
     # opening PR against qa triggered this
       script: 
         - echo "QA Validation"
-        - ant -buildfile build.xml validateWithTest 
+        - ant -buildfile build.xml validateNoTest 
           -Dsfdc.deployFile=package.xml
           -Dsfdc.username=$SFDC_QA_USERNAME
           -Dsfdc.password=$SFDC_QA_PASSWORD
