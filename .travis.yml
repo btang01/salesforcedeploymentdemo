@@ -10,12 +10,12 @@ stages:
     if: type = pull_request and branch == "uat"
   - name: PRODUCTION Validation
     if: type = pull_request and branch == "production"
-  - name: MERGE Deployment
-    if: type = push AND branch == "merge"
-  - name: QA Deployment
-    if: type = push AND branch == "qa"
-  - name: UAT Deployment
-    if: type = push AND branch == "uat"
+  #- name: MERGE Deployment
+  #  if: type = push AND branch == "merge"
+  #- name: QA Deployment
+  #  if: type = push AND branch == "qa"
+  #- name: UAT Deployment
+  #  if: type = push AND branch == "uat"
 
 jobs:
   include:	
