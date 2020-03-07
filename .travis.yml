@@ -24,7 +24,7 @@ jobs:
     # opening PR against merge triggered this
       script: 
         - echo "MERGE Validation"
-        - ant -buildfile build.xml validateWithTest 
+        - ant -buildfile build.xml validateNoTest 
           -Dsfdc.deployFile=package.xml
           -Dsfdc.username=$SFDC_MERGE_USERNAME
           -Dsfdc.password=$SFDC_MERGE_PASSWORD
