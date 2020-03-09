@@ -2,8 +2,6 @@ language: java
 conditions: v1
 
 stages:
-  - name: DEV Validation
-    if: type = pull_request AND branch == "dev"
   - name: MERGE Validation
     if: type = pull_request and branch == "merge"
   - name: QA Validation
@@ -12,18 +10,15 @@ stages:
     if: type = pull_request and branch == "uat"
   - name: PRODUCTION Validation
     if: type = pull_request and branch == "production"
+  - name: MERGE Deployment
+    if: type = push AND branch == "merge"
+  - name: QA Deployment
+    if: type = push AND branch == "qa"
+  - name: UAT Deployment
+    if: type = push AND branch == "uat"
 
 jobs:
-  include:
-    # opening PR against dev triggered this
-    - stage: DEV Validation
-      script:
-        - echo "DEV Validation"
-        - ant -buildfile build.xml validateNoTest 
-          -Dsfdc.deployFile=package.xml
-          -Dsfdc.username=$SFDC_DEV_USERNAME
-          -Dsfdc.password=$SFDC_DEV_PASSWORD
-          -Dsfdc.serverUrl=$SFDC_TEST_URL			
+  include:	
 
     - stage: MERGE Validation
     # opening PR against merge triggered this
@@ -31,8 +26,8 @@ jobs:
         - echo "MERGE Validation"
         - ant -buildfile build.xml validateNoTest 
           -Dsfdc.deployFile=package.xml
-          -Dsfdc.username=$SFDC_DEV_USERNAME
-          -Dsfdc.password=$SFDC_DEV_PASSWORD
+          -Dsfdc.username=$SFDC_MERGE_USERNAME
+          -Dsfdc.password=$SFDC_MERGE_PASSWORD
           -Dsfdc.serverUrl=$SFDC_TEST_URL
 
     - stage: QA Validation
@@ -41,18 +36,48 @@ jobs:
         - echo "QA Validation"
         - ant -buildfile build.xml validateNoTest 
           -Dsfdc.deployFile=package.xml
-          -Dsfdc.username=$SFDC_DEV_USERNAME
-          -Dsfdc.password=$SFDC_DEV_PASSWORD
+          -Dsfdc.username=$SFDC_QA_USERNAME
+          -Dsfdc.password=$SFDC_QA_PASSWORD
           -Dsfdc.serverUrl=$SFDC_TEST_URL
 
     - stage: UAT Validation
     # opening PR against uat triggered this
       script: 
         - echo "UAT Validation"
-        - ant -buildfile build.xml validateNoTest 
+        - ant -buildfile build.xml validateWithTest 
           -Dsfdc.deployFile=package.xml
-          -Dsfdc.username=$SFDC_DEV_USERNAME
-          -Dsfdc.password=$SFDC_DEV_PASSWORD
+          -Dsfdc.username=$SFDC_UAT_USERNAME
+          -Dsfdc.password=$SFDC_UAT_PASSWORD
+          -Dsfdc.serverUrl=$SFDC_TEST_URL
+
+    - stage: MERGE Deployment
+    # opening PR against uat triggered this
+      script: 
+        - echo "Deploying to MERGE"
+        - ant -buildfile build.xml deployCode 
+          -Dsfdc.deployFile=package.xml
+          -Dsfdc.username=$SFDC_MERGE_USERNAME
+          -Dsfdc.password=$SFDC_MERGE_PASSWORD
+          -Dsfdc.serverUrl=$SFDC_TEST_URL
+
+    - stage: QA Deployment
+    # opening PR against uat triggered this
+      script: 
+        - echo "Deploying to QA"
+        - ant -buildfile build.xml deployCode 
+          -Dsfdc.deployFile=package.xml
+          -Dsfdc.username=$SFDC_QA_USERNAME
+          -Dsfdc.password=$SFDC_QA_PASSWORD
+          -Dsfdc.serverUrl=$SFDC_TEST_URL
+
+    - stage: UAT Deployment
+    # opening PR against uat triggered this
+      script: 
+        - echo "Deploying to UAT"
+        - ant -buildfile build.xml deployCode 
+          -Dsfdc.deployFile=package.xml
+          -Dsfdc.username=$SFDC_UAT_USERNAME
+          -Dsfdc.password=$SFDC_UAT_PASSWORD
           -Dsfdc.serverUrl=$SFDC_TEST_URL
 
     - stage: PRODUCTION Validation
@@ -61,6 +86,6 @@ jobs:
         - echo "PRODUCTION Validation"
         - ant -buildfile build.xml validateNoTest 
           -Dsfdc.deployFile=package.xml
-          -Dsfdc.username=$SFDC_DEV_USERNAME
-          -Dsfdc.password=$SFDC_DEV_PASSWORD
+          -Dsfdc.username=$SFDC_PROD_USERNAME
+          -Dsfdc.password=$SFDC_PROD_PASSWORD
           -Dsfdc.serverUrl=$SFDC_TEST_URL

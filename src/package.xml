@@ -3,7 +3,9 @@
 <!--> Add Member Assets in Alphabetical Order <-->
     <types>
         <members>demoController</members>
+        <members>demoControllerTest</members>
         <members>DemoDeploymentClass</members>
+        <members>DemoDeploymentClassTest</members>
         <name>ApexClass</name>
     </types>
     <version>45.0</version>
