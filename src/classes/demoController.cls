@@ -1,5 +1,5 @@
 public with sharing class demoController {
     public static void print(){
-        System.debug('Hello World');
+        System.debug('Hello WM');
     }
 }
